@@ -9,4 +9,10 @@ COPY Pipfile* /app
 
 RUN pipenv install --dev --system
 
-CMD ["tail", "-f", "/dev/null"]
+# ローカル用
+# CMD ["tail", "-f", "/dev/null"]
+
+RUN useradd fastapi
+USER fastapi
+
+ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

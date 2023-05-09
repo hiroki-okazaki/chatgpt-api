@@ -1,0 +1,33 @@
+version: '3'
+services:
+  backend-api-container:
+    container_name: backend-api-container
+    build:
+      context: .
+      dockerfile: .
+    ports:
+      - 8000:8000
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: mydb
+      DB_USERNAME: admin
+      DB_PASSWORD: admin
+      APP_ENV: dev
+    volumes:
+      - ./:/app
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    volumes:
+      - db-store:/var/lib/mysql
+      - ./docker/mysql/sql:/docker-entrypoint-initdb.d
+
+volumes:
+  db-store:
+  vendor-package:
+    driver: local
