@@ -6,13 +6,13 @@ RUN pip install --upgrade pip && \
 WORKDIR /app
 
 COPY Pipfile* /app
+COPY main.py /app
 
 RUN pipenv install --dev --system
 
-# ローカル用
-# CMD ["tail", "-f", "/dev/null"]
-
 RUN useradd fastapi
+RUN chown -R fastapi:fastapi /app
 USER fastapi
 
-ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+EXPOSE 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
